@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { asyncExists, asyncReadFile, msToAss, clone } from './utils';
 import { ToyundaData } from './types';
 import stringify from 'ass-stringify';

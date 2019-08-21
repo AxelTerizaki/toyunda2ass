@@ -18,6 +18,14 @@
   ],
   "author": "Guillaume Lebigot <axel@teri-chan.net>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://lab.shelter.moe/axelterizaki/toyunda2ass/issues",
+    "email": "axel@teri-chan.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://lab.shelter.moe/axelterizaki/toyunda2ass.git"
+  },
   "dependencies": {
     "ass-stringify": "^0.1.3",
     "execa": "^2.0.4"
