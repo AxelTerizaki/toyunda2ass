@@ -69,12 +69,12 @@ export function convertToASS(time: ToyundaData, fps: number): string {
 		line = line.replace(/\r/g,'')
 		// At the start of each line, take the first number of the frame data we're currently on
 		const firstFrame = time.frames[frmPos].split(' ')[0];
-		// We apply a 0.9 second delay in advance so the line appears before it is to be sung
+		// We apply a 1 second delay in advance so the line appears before it is to be sung
 		let startMs = Math.floor((+firstFrame / fps) * 1000) - 1000;
 		if (startMs < 0) startMs = 0;
 		let ASSLine = ['{\\fad(90,20)\\k90}'];
 		for (const syl of line.split('&')) {
-			// First item is ignored, it's what's before the first syllabe marker. Also ignored are % headers in lyr files
+			// First item is ignored, it's what's before the first syllabe marker.
 			if (syl === '') continue;
 			const firstSylFrame = time.frames[frmPos].split(' ')[0];
 			const lastSylFrame = time.frames[frmPos].split(' ')[1];
@@ -83,8 +83,8 @@ export function convertToASS(time: ToyundaData, fps: number): string {
 			ASSLine.push('{\\k' + duration + '}' + syl);
 			frmPos++;
 		}
-		// To determine stopTime, we pick frame data before the current one since it's supposed to be on the same line
-		// We also add 900ms to the end of the line so it stays a bit longer on screen
+		// To determine stopTime, we pick frame data before the current one since it's supposed to be on the line before the one we're on now.
+		// We also add 100ms to the end of the line so it stays a bit longer on screen
 		const lastFrameInLine = time.frames[frmPos - 1].split(' ')[1];
 		const stopMs = Math.floor((+lastFrameInLine / fps) * 1000) + 100;
 		// Let's construct the line.
