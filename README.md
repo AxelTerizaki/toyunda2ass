@@ -10,7 +10,7 @@ Toyunda was made during a time when soft-subbing (rendering ASS subtitles on the
 
 The format should be deprecated given it relies on an old, unmaintained version of mplayer, but people (including Epitanime) still continue to use it despite there being better alternatives.
 
-¯\\_(ツ)_/¯
+`¯\_(ツ)_/¯`
 
 Toyunda2ASS was a fun side-project which took me about a day.
 
