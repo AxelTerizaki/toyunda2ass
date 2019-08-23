@@ -50,7 +50,9 @@ toyunda2ass myfile.frm myfile.lyr 23.98
 
 It produces an ASS file on stdout.
 
-FPS is optional. If not provided it'll strip the `.frm` on the first file and try to find a matching `.avi` file.
+FPS is optional. If not provided it'll strip the `.frm` on the first file and try to find a matching `.avi` file. 
+
+You need to have `ffmpeg` installed in your PATH so Toyunda2ASS can read fps info from a video file
 
 ## Build
 
