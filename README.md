@@ -32,6 +32,8 @@ Splits a TimingV3 generated file into frm+lyr information. It will only work if 
 
 Returns an object with `lyrics` and `frames` properties containing an array of strings (1 per line)
 
+Note that this script won't work with V1/V2 Toyunda files
+
 #### findFPS(videofile: string)
 
 Returns the FPS (frames per second) of `videofile`. FPS is needed to calculate precisely the karaoke timing. You need [ffmpeg](http://ffmpeg.org) in your PATH for this to work.
@@ -50,7 +52,9 @@ toyunda2ass myfile.frm myfile.lyr 23.98
 
 It produces an ASS file on stdout.
 
-FPS is optional. If not provided it'll strip the `.frm` on the first file and try to find a matching `.avi` file.
+FPS is optional. If not provided it'll strip the `.frm` on the first file and try to find a matching `.avi` file. 
+
+You need to have `ffmpeg` installed in your PATH so Toyunda2ASS can read fps info from a video file
 
 ## Build
 

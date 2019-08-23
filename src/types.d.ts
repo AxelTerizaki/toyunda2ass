@@ -1,4 +1,4 @@
-declare module 'toyunda2ass' {
+//declare module 'toyunda2ass' {
 
 	export interface ToyundaData {
 		lyrics: string[],
@@ -7,4 +7,4 @@ declare module 'toyunda2ass' {
 	export function splitTime(time: string): ToyundaData
 	export function findFPS(videofile: string): Promise<number>
 	export function convertToASS(ToyundaData: ToyundaData, fps: number): string
-}
+//}

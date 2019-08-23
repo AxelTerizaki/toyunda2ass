@@ -60,7 +60,13 @@ export async function findFPS(videoFile: string): Promise<number> {
 /** Convert Toyunda data (frm+lyr) to ASS */
 export function convertToASS(time: ToyundaData, fps: number): string {
 	// Going to read lyrics data and increment an index to see which frame line we should be on.
-	const dialogue = [];
+	const dialogues = [];
+	const comments = [];
+	const script = clone(ass.dialogue);
+	script.key = 'Comment';
+	script.value.Text = ass.script;
+	script.value.Effect = ass.scriptFX;
+	comments.push(clone(script));
 	let frmPos = 0;
 	for (let line of time.lyrics) {
 		// Ignore lyr header lines (%)
@@ -72,7 +78,7 @@ export function convertToASS(time: ToyundaData, fps: number): string {
 		// We apply a 1 second delay in advance so the line appears before it is to be sung
 		let startMs = Math.floor((+firstFrame / fps) * 1000) - 1000;
 		if (startMs < 0) startMs = 0;
-		let ASSLine = ['{\\fad(90,20)\\k90}'];
+		const ASSLine = [];
 		for (const syl of line.split('&')) {
 			// First item is ignored, it's what's before the first syllabe marker.
 			if (syl === '') continue;
@@ -89,15 +95,21 @@ export function convertToASS(time: ToyundaData, fps: number): string {
 		const stopMs = Math.floor((+lastFrameInLine / fps) * 1000) + 100;
 		// Let's construct the line.
 
-		const event = clone(ass.dialogue);
-		event.value.Start = msToAss(startMs);
-		event.value.End = msToAss(stopMs);
-		event.value.Text = ASSLine.join('');
+		const dialogue = clone(ass.dialogue);
+		const comment = clone(ass.dialogue);
+		dialogue.value.Start = comment.value.Start = msToAss(startMs);
+		dialogue.value.End = comment.value.End = msToAss(stopMs);
+		dialogue.value.Text = ass.dialogueScript + ASSLine.join('');
+		dialogue.value.Effect = 'karaoke';
+		comment.value.Effect = 'fx';
+		comment.key = 'Comment';
+		comment.value.Text = ass.commentScript + ASSLine.join('');
 		// Add it to our kara
-		dialogue.push(clone(event));
+		dialogues.push(clone(dialogue));
+		comments.push(clone(comment));
 	}
 	const events = clone(ass.events);
-	events.body = events.body.concat(dialogue);
+	events.body = events.body.concat(comments, dialogues);
 	return stringify([ass.scriptInfo, ass.styles, events]);
 }
 
