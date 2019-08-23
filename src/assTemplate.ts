@@ -3,18 +3,6 @@ export const scriptInfo = {
 	body: [
 		{
 			type: 'comment',
-			value: ' This is a Sub Station Alpha v4 script.'
-		},
-		{
-			type: 'comment',
-			value: ' For Sub Station Alpha info and downloads,'
-		},
-		{
-			type: 'comment',
-			value: ' go to http://www.eswat.demon.co.uk/'
-		},
-		{
-			type: 'comment',
 			value: 'Converted using toyunda2ass : https://lab.shelter.moe/axelterizaki/toyunda2ass'
 		},
 		{
@@ -138,3 +126,8 @@ export const dialogue = {
 		Text: ''
 	}
 };
+
+export const dialogueScript = '{\\fad(90,20)\\k90}';
+export const commentScript = '{\\k90}';
+export const scriptFX = 'template pre-line all keeptags';
+export const script = '!retime("line",$start < 0 and -$start or -0,200)!{!$start < 0 and "\\\\k" .. ($start/10) or "\\\\k0"!\\fad(!$start < 0 and $start or 300!,200)}';
