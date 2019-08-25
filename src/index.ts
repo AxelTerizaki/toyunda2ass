@@ -40,9 +40,9 @@ export function splitTime(txt: string): ToyundaData {
 	}
 }
 
-export async function findFPS(videoFile: string): Promise<number> {
+export async function findFPS(videoFile: string, ffmpegPath = 'ffmpeg'): Promise<number> {
 	try {
-		const result = await execa('ffmpeg', ['-i', videoFile, '-vn', '-f','null', '-'], { encoding : 'utf8' });
+		const result = await execa(ffmpegPath, ['-i', videoFile, '-vn', '-f','null', '-'], { encoding : 'utf8' });
 		const outputArray = result.stderr.split(' ');
 		const indexFPS = outputArray.indexOf('fps');
 		let fps = 0;
