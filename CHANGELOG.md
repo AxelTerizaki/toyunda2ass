@@ -1,6 +1,15 @@
 # CHANGELOG
 
-## 1.0.5 
+## 1.0.7
+
+- Do not add \k100 on first line if song begins at 00:00:00
+- Correctly guess fps within ffmpeg output
+
+## 1.0.6
+
+- Forgot to modify findFPS type
+
+## 1.0.5
 
 - Made findFPS function accept a ffmpegPath parameter (defaults to 'ffmpeg')
 
