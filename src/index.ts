@@ -97,13 +97,20 @@ export function convertToASS(time: ToyundaData, fps: number): string {
 
 		const dialogue = clone(ass.dialogue);
 		const comment = clone(ass.dialogue);
+		let dialogueScript = ass.dialogueScript;
+		let commentScript = ass.commentScript;
+		if (startMs === 0) {
+			// if song starts at the beginning, remove the \k100 delay
+			dialogueScript = dialogueScript.replace(/\\k100/,'');
+			commentScript = '';
+		}
 		dialogue.value.Start = comment.value.Start = msToAss(startMs);
 		dialogue.value.End = comment.value.End = msToAss(stopMs);
-		dialogue.value.Text = ass.dialogueScript + ASSLine.join('');
+		dialogue.value.Text = dialogueScript + ASSLine.join('');
 		dialogue.value.Effect = 'karaoke';
 		comment.value.Effect = 'fx';
 		comment.key = 'Comment';
-		comment.value.Text = ass.commentScript + ASSLine.join('');
+		comment.value.Text = commentScript + ASSLine.join('');
 		// Add it to our kara
 		dialogues.push(clone(dialogue));
 		comments.push(clone(comment));
