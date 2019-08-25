@@ -44,7 +44,7 @@ export async function findFPS(videoFile: string, ffmpegPath = 'ffmpeg'): Promise
 	try {
 		const result = await execa(ffmpegPath, ['-i', videoFile, '-vn', '-f','null', '-'], { encoding : 'utf8' });
 		const outputArray = result.stderr.split(' ');
-		const indexFPS = outputArray.indexOf('fps');
+		const indexFPS = outputArray.indexOf('fps,');
 		let fps = 0;
 		if (indexFPS > -1) {
 			fps = parseFloat(outputArray[indexFPS - 1]);
