@@ -28,3 +28,17 @@ export function msToAss(ms: number): string {
 export function clone(a: any) {
 	return JSON.parse(JSON.stringify(a));
 }
+
+export function getLineBreakChar(string: string): 'CR' | 'LF' | 'CRLF' {
+    const indexOfLF = string.indexOf('\n', 1);  // No need to check first-character
+
+    if (indexOfLF === -1) {
+        if (string.indexOf('\r') !== -1) return 'CR';
+
+        return 'LF';
+    }
+
+    if (string[indexOfLF - 1] === '\r') return 'CRLF';
+
+    return 'LF';
+}

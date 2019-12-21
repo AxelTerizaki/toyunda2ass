@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { asyncExists, asyncReadFile, msToAss, clone } from './utils';
+import { asyncExists, asyncReadFile, msToAss, clone, getLineBreakChar } from './utils';
 import { ToyundaData } from './types';
 import stringify from 'ass-stringify';
 import execa from 'execa';
@@ -10,6 +10,7 @@ export function splitTime(txt: string): ToyundaData {
 	const lyr = [];
 	const frm = [];
 	let position = '';
+	if (getLineBreakChar(txt) === 'CRLF') txt = txt.replace(/\r\n/g, '\n');		
 	for (const line of txt.split('\n')) {
 		if (line === '# --- LYRICS - GENERATE AGAIN AFTER YOU EDIT ---') {
 			position = 'lyr';
