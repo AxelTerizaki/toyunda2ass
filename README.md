@@ -52,6 +52,8 @@ toyunda2ass myfile.frm myfile.lyr 23.98
 
 It produces an ASS file on stdout.
 
+You can also provide a txt file instead of frm+lyr. In this case splitTime() is called. Of course the FPS number becomes the second parameter.
+
 FPS is optional. If not provided it'll strip the `.frm` on the first file and try to find a matching `.avi` file. 
 
 You need to have `ffmpeg` installed in your PATH so Toyunda2ASS can read fps info from a video file

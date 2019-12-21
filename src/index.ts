@@ -127,18 +127,34 @@ async function mainCLI() {
 		Output goes to stdout
 		`;
 	}
-	const frmFile = process.argv[2];
-	const lyrFile = process.argv[3];
-	let fps = +process.argv[4];
+	let fps: number;
+	let lyr: string;
+	let frm: string;
+	let aviFile: string;
+	if (process.argv[2].endsWith('.txt')) {
+		const txtFile = process.argv[2];
+		fps = +process.argv[3];
+		if (!await asyncExists(txtFile)) throw `File ${txtFile} does not exist`;
+		aviFile = txtFile.replace('.txt', '.avi');		
+		const txt = await asyncReadFile(txtFile, 'utf8');
+		const data = splitTime(txt);
+		lyr = data.lyrics.join('\n');
+		frm = data.frames.join('\n');
+	} else {
+		// We're in frm+lyr
+		fps = +process.argv[4];
+		const frmFile = process.argv[2];
+		const lyrFile = process.argv[3];
+		if (!await asyncExists(frmFile)) throw `File ${frmFile} does not exist`;
+		if (!await asyncExists(lyrFile)) throw `File ${lyrFile} does not exist`;
+		lyr = await asyncReadFile(lyrFile, 'utf8');
+		frm = await asyncReadFile(frmFile, 'utf8');
+		aviFile = frmFile.replace('.frm', '.avi');
+	}
 	if (!fps || isNaN(fps)) {
 		// Trying to guess FPS from video file
-		fps = await findFPS(frmFile.replace('.frm', '.avi'));
-	}
-	if (!await asyncExists(frmFile)) throw `File ${frmFile} does not exist`;
-	if (!await asyncExists(lyrFile)) throw `File ${lyrFile} does not exist`;
-	const lyr = await asyncReadFile(lyrFile, 'utf8');
-	const frm = await asyncReadFile(frmFile, 'utf8');
-
+		fps = await findFPS(aviFile);
+	}	
 	return convertToASS({lyrics: lyr.split('\n'), frames: frm.split('\n')}, fps);
 }
 
