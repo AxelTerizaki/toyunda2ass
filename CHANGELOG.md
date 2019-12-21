@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.0.8
+
+- Detect CRLF on txt data and turns it into LF.
+- Added ability to take just a txt as parameter containing frm+lyr files
+
 ## 1.0.7
 
 - Do not add \k100 on first line if song begins at 00:00:00
