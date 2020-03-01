@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 1.0.9
+## 1.0.10
 
 - Fixed \k100 to \k90, not on comment lines anymore
 - Fixed hours being on one character instead of two
