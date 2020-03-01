@@ -10,7 +10,7 @@ export function splitTime(txt: string): ToyundaData {
 	const lyr = [];
 	const frm = [];
 	let position = '';
-	if (getLineBreakChar(txt) === 'CRLF') txt = txt.replace(/\r\n/g, '\n');		
+	if (getLineBreakChar(txt) === 'CRLF') txt = txt.replace(/\r\n/g, '\n');
 	for (const line of txt.split('\n')) {
 		if (line === '# --- LYRICS - GENERATE AGAIN AFTER YOU EDIT ---') {
 			position = 'lyr';
@@ -99,19 +99,18 @@ export function convertToASS(time: ToyundaData, fps: number): string {
 		const dialogue = clone(ass.dialogue);
 		const comment = clone(ass.dialogue);
 		let dialogueScript = ass.dialogueScript;
-		let commentScript = ass.commentScript;
 		if (startMs === 0) {
 			// if song starts at the beginning, remove the \k100 delay
 			dialogueScript = dialogueScript.replace(/\\k100/,'');
-			commentScript = '';
 		}
-		dialogue.value.Start = comment.value.Start = msToAss(startMs);
+		dialogue.value.Start = msToAss(startMs)
+		comment.value.Start = msToAss(startMs + 1000);
 		dialogue.value.End = comment.value.End = msToAss(stopMs);
 		dialogue.value.Text = dialogueScript + ASSLine.join('');
 		dialogue.value.Effect = 'karaoke';
 		comment.value.Effect = 'fx';
 		comment.key = 'Comment';
-		comment.value.Text = commentScript + ASSLine.join('');
+		comment.value.Text = ASSLine.join('');
 		// Add it to our kara
 		dialogues.push(clone(dialogue));
 		comments.push(clone(comment));
@@ -136,7 +135,7 @@ async function mainCLI() {
 		const txtFile = process.argv[2];
 		fps = +process.argv[3];
 		if (!await asyncExists(txtFile)) throw `File ${txtFile} does not exist`;
-		aviFile = txtFile.replace('.txt', '.avi');		
+		aviFile = txtFile.replace('.txt', '.avi');
 		const txt = await asyncReadFile(txtFile, 'utf8');
 		const data = splitTime(txt);
 		lyr = data.lyrics.join('\n');
@@ -155,7 +154,7 @@ async function mainCLI() {
 	if (!fps || isNaN(fps)) {
 		// Trying to guess FPS from video file
 		fps = await findFPS(aviFile);
-	}	
+	}
 	return convertToASS({lyrics: lyr.split('\n'), frames: frm.split('\n')}, fps);
 }
 
