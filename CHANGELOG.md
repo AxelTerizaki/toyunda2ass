@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.12
+
+- No changes (forgot to tsc --build for npm)
+
 ## 1.0.11
 
 - More fixes thanks to @Aeden
