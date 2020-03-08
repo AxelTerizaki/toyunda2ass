@@ -76,9 +76,7 @@ export function convertToASS(time: ToyundaData, fps: number): string {
 		line = line.replace(/\r/g,'')
 		// At the start of each line, take the first number of the frame data we're currently on
 		const firstFrame = time.frames[frmPos].split(' ')[0];
-		// We apply a 1 second delay in advance so the line appears before it is to be sung
-		let startMs = Math.floor((+firstFrame / fps) * 1000) - 1000;
-		if (startMs < 0) startMs = 0;
+		let startMs = Math.floor((+firstFrame / fps) * 1000);
 		const ASSLine = [];
 		for (const syl of line.split('&')) {
 			// First item is ignored, it's what's before the first syllabe marker.
@@ -98,15 +96,11 @@ export function convertToASS(time: ToyundaData, fps: number): string {
 
 		const dialogue = clone(ass.dialogue);
 		const comment = clone(ass.dialogue);
-		let dialogueScript = ass.dialogueScript;
-		if (startMs === 0) {
-			// if song starts at the beginning, remove the \k100 delay
-			dialogueScript = dialogueScript.replace(/\\k100/,'');
-		}
-		dialogue.value.Start = msToAss(startMs)
-		comment.value.Start = msToAss(startMs + 1000);
+		// We apply a 900 millisecond delay in advance so the line appears before it is to be sung
+		dialogue.value.Start = msToAss(startMs - 900 < 0 ? 0 : startMs - 900);
+		comment.value.Start = msToAss(startMs);
 		dialogue.value.End = comment.value.End = msToAss(stopMs);
-		dialogue.value.Text = dialogueScript + ASSLine.join('');
+		dialogue.value.Text = '{\\k'+(startMs - 900 < 0 ? (900-startMs)/10 : 100) + ass.dialogueScript + ASSLine.join('');
 		dialogue.value.Effect = 'karaoke';
 		comment.value.Effect = 'fx';
 		comment.key = 'Comment';
