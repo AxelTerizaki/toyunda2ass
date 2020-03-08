@@ -1,6 +1,6 @@
 {
   "name": "toyunda2ass",
-  "version": "1.0.122,
+  "version": "1.0.12",
   "description": "Convert Epitanime Toyunda karaoke files to ASS files",
   "main": "dist/index.js",
   "bin": {
